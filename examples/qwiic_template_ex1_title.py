@@ -33,7 +33,7 @@
 # SOFTWARE.
 #===============================================================================
 
-import qwiic_template # TODO Import correct package
+import qwiic_ism330dhcx # TODO Import correct package
 import sys
 
 def runExample():
@@ -41,7 +41,7 @@ def runExample():
 	print("\nQwiic Template Example 1 - Title\n")
 
 	# Create instance of device
-	myDevice = qwiic_template.QwiicTemplate() # TODO update as needed
+	myDevice = qwiic_ism330dhcx.QwiicTemplate() # TODO update as needed
 
 	# Check if it's connected
 	if myDevice.is_connected() == False:
