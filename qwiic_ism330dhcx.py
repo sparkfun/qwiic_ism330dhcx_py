@@ -1911,7 +1911,7 @@ class QwiicISM330DHCX(object):
             return
         
         if sensor == 0:
-            slvAddReg = self.kRegSlv0Addr
+            slvAddReg = self.kRegSlv0Add
             slvSubaddReg = self.kRegSlv0Subadd
             slvConfigReg = self.kRegSlv0Config
         elif sensor == 1:
@@ -1971,7 +1971,7 @@ class QwiicISM330DHCX(object):
         slv0AddVal = (address >> 1) << self.kSlv0AddShiftSlave0
         slv0AddVal &= ~self.kSlv0AddMaskRw0
 
-        self._i2c.writeByte(self.address, self.kRegSlv0Addr, slv0AddVal)
+        self._i2c.writeByte(self.address, self.kRegSlv0Add, slv0AddVal)
 
         self._i2c.writeByte(self.address, self.kRegSlv0Subadd, subAddress)
 
