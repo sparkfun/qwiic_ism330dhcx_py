@@ -79,11 +79,11 @@ class QwiicISM330DHCX(object):
     # Ctrl1 XL register
     kRegCtrl1XL = 0x10
 
-    kCtrl1XlShiftOdr = 0
+    kCtrl1XlShiftOdr = 4
     kCtrl1XlMaskOdr = 0b1111 << kCtrl1XlShiftOdr
-    kCtrl1XlShiftFs = 4
+    kCtrl1XlShiftFs = 2
     kCtrl1XlMaskFs = 0b11 << kCtrl1XlShiftFs
-    kCtrl1XlShiftLpf2XlEn = 6
+    kCtrl1XlShiftLpf2XlEn = 1
     kCtrl1XlMaskLpf2XlEn = 0b1 << kCtrl1XlShiftLpf2XlEn
 
     kXlFs2g = 0
@@ -93,9 +93,9 @@ class QwiicISM330DHCX(object):
     
     # Ctrl2 G register
     kRegCtrl2G = 0x11
-    kCtrl2GShiftOdr = 0
+    kCtrl2GShiftOdr = 4
     kCtrl2GMaskOdr = 0b1111 << kCtrl2GShiftOdr
-    kCtrl2GShiftFs = 4
+    kCtrl2GShiftFs = 0
     kCtrl2GMaskFs = 0b1111 << kCtrl2GShiftFs
 
     kGyroFs125dps = 2
@@ -114,59 +114,59 @@ class QwiicISM330DHCX(object):
 
     # Configuration regs
     kRegFuncCfgAccess = 0x01
-    kFuncCfgAccessShiftRegAccess = 0
+    kFuncCfgAccessShiftRegAccess = 6
     kFuncCfgAccessMaskRegAccess = 0b11 << kFuncCfgAccessShiftRegAccess
 
     kRegCtrl9XL = 0x18
-    kCtrl9XlShiftDenX = 0
+    kCtrl9XlShiftDenX = 7
     kCtrl9XlMaskDenX = 0b1 << kCtrl9XlShiftDenX
-    kCtrl9XlShiftDenY = 1
+    kCtrl9XlShiftDenY = 6
     kCtrl9XlMaskDenY = 0b1 << kCtrl9XlShiftDenY
-    kCtrl9XlShiftDenZ = 2
+    kCtrl9XlShiftDenZ = 5
     kCtrl9XlMaskDenZ = 0b1 << kCtrl9XlShiftDenZ
     kCtrl9XlShiftDenXlG = 3
     kCtrl9XlMaskDenXlG = 0b11 << kCtrl9XlShiftDenXlG
-    kCtrl9XlShiftDenLh = 5
+    kCtrl9XlShiftDenLh = 2
     kCtrl9XlMaskDenLh = 0b1 << kCtrl9XlShiftDenLh
-    kCtrl9XlShiftDeviceConf = 6
+    kCtrl9XlShiftDeviceConf = 1
     kCtrl9XlMaskDeviceConf = 0b1 << kCtrl9XlShiftDeviceConf
 
     kRegCtrl3C = 0x12
-    kCtrl3CShiftBoot = 0
+    kCtrl3CShiftBoot = 7
     kCtrl3CMaskBoot = 0b1 << kCtrl3CShiftBoot
-    kCtrl3CShiftBdu = 1
+    kCtrl3CShiftBdu = 6
     kCtrl3CMaskBdu = 0b1 << kCtrl3CShiftBdu
-    kCtrl3CShiftHlActive = 2
+    kCtrl3CShiftHlActive = 5
     kCtrl3CMaskHlActive = 0b1 << kCtrl3CShiftHlActive
-    kCtrl3CShiftPpOd = 3
+    kCtrl3CShiftPpOd = 4
     kCtrl3CMaskPpOd = 0b1 << kCtrl3CShiftPpOd
-    kCtrl3CShiftSim = 4
+    kCtrl3CShiftSim = 3
     kCtrl3CMaskSim = 0b1 << kCtrl3CShiftSim
-    kCtrl3CShiftIfInc = 5
+    kCtrl3CShiftIfInc = 2
     kCtrl3CMaskIfInc = 0b1 << kCtrl3CShiftIfInc
-    kCtrl3CShiftSwReset = 7
+    kCtrl3CShiftSwReset = 0
     kCtrl3CMaskSwReset = 0b1 << kCtrl3CShiftSwReset
 
     kRegCtrl4C = 0x13
-    kCtrl4CShiftSleepG = 1
+    kCtrl4CShiftSleepG = 6
     kCtrl4CMaskSleepG = 0b1 << kCtrl4CShiftSleepG
-    kCtrl4CShiftInt2OnInt1 = 2
+    kCtrl4CShiftInt2OnInt1 = 5
     kCtrl4CMaskInt2OnInt1 = 0b1 << kCtrl4CShiftInt2OnInt1
-    kCtrl4CShiftDrdyMask = 4
+    kCtrl4CShiftDrdyMask = 3
     kCtrl4CMaskDrdyMask = 0b1 << kCtrl4CShiftDrdyMask
-    kCtrl4CShiftI2cDisable = 5
+    kCtrl4CShiftI2cDisable = 2
     kCtrl4CMaskI2cDisable = 0b1 << kCtrl4CShiftI2cDisable
-    kCtrl4CShiftLpf1SelG = 6
+    kCtrl4CShiftLpf1SelG = 1
     kCtrl4CMaskLpf1SelG = 0b1 << kCtrl4CShiftLpf1SelG
 
     kRegCtrl6C = 0x15
-    kCtrl6CShiftDenMode = 0
+    kCtrl6CShiftDenMode = 5
     kCtrl6CMaskDenMode = 0b111 << kCtrl6CShiftDenMode
-    kCtrl6CShiftXlHmMode = 3
+    kCtrl6CShiftXlHmMode = 4
     kCtrl6CMaskXlHmMode = 0b1 << kCtrl6CShiftXlHmMode
-    kCtrl6CShiftUsrOffW = 4
+    kCtrl6CShiftUsrOffW = 3
     kCtrl6CMaskUsrOffW = 0b1 << kCtrl6CShiftUsrOffW
-    kCtrl6CShiftFtype = 5
+    kCtrl6CShiftFtype = 0
     kCtrl6CMaskFtype = 0b111 << kCtrl6CShiftFtype
 
     kRegCtrl10C = 0x19
@@ -180,15 +180,15 @@ class QwiicISM330DHCX(object):
 
     # Slope Filtering
     kRegCtrl8XL = 0x17
-    kCtrl8XlShiftHpcfXl = 0
+    kCtrl8XlShiftHpcfXl = 5
     kCtrl8XlMaskHpcfXl = 0b111 << kCtrl8XlShiftHpcfXl
-    kCtrl8XlShiftHpRefModeXl = 3
+    kCtrl8XlShiftHpRefModeXl = 4
     kCtrl8XlMaskHpRefModeXl = 0b1 << kCtrl8XlShiftHpRefModeXl
-    kCtrl8XlShiftFastSettlModeXl = 4
+    kCtrl8XlShiftFastSettlModeXl = 3
     kCtrl8XlMaskFastSettlModeXl = 0b1 << kCtrl8XlShiftFastSettlModeXl
-    kCtrl8XlShiftHpSlopeXlEn = 5
+    kCtrl8XlShiftHpSlopeXlEn = 2
     kCtrl8XlMaskHpSlopeXlEn = 0b1 << kCtrl8XlShiftHpSlopeXlEn
-    kCtrl8XlShiftLowPassOn6d = 7
+    kCtrl8XlShiftLowPassOn6d = 0
     kCtrl8XlMaskLowPassOn6d = 0b1 << kCtrl8XlShiftLowPassOn6d
 
     # Possilbe Slope Filters
@@ -281,11 +281,11 @@ class QwiicISM330DHCX(object):
     kOdrFsm104Hz = 3
 
     kRegEmbFuncEnB = 0x05
-    kEmbFuncEnBShiftMlcEn = 3
+    kEmbFuncEnBShiftMlcEn = 4
     kEmbFuncEnBMaskMlcEn = 0b1 << kEmbFuncEnBShiftMlcEn
-    kEmbFuncEnBShiftFifoComprEn = 4
+    kEmbFuncEnBShiftFifoComprEn = 3
     kEmbFuncEnBMaskFifoComprEn = 0b1 << kEmbFuncEnBShiftFifoComprEn
-    kEmbFuncEnBShiftFsmEn = 7
+    kEmbFuncEnBShiftFsmEn = 0
     kEmbFuncEnBMaskFsmEn = 0b1 << kEmbFuncEnBShiftFsmEn
 
     kRegEmbFuncOdrCfgC = 0x60
@@ -296,29 +296,29 @@ class QwiicISM330DHCX(object):
     kRegFifoCtrl1 = 0x07
 
     kRegFifoCtrl2 = 0x08
-    kFifoCtrl2ShiftStopOnWtm = 0
+    kFifoCtrl2ShiftStopOnWtm = 7
     kFifoCtrl2MaskStopOnWtm = 0b1 << kFifoCtrl2ShiftStopOnWtm
-    kFifoCtrl2ShiftFifoComprRtEn = 1
+    kFifoCtrl2ShiftFifoComprRtEn = 6
     kFifoCtrl2MaskFifoComprRtEn = 0b1 << kFifoCtrl2ShiftFifoComprRtEn
-    kFifoCtrl2ShiftOdrChgEn = 3
+    kFifoCtrl2ShiftOdrChgEn = 4
     kFifoCtrl2MaskOdrChgEn = 0b1 << kFifoCtrl2ShiftOdrChgEn
-    kFifoCtrl2ShiftUncoptrRate = 5
+    kFifoCtrl2ShiftUncoptrRate = 1
     kFifoCtrl2MaskUncoptrRate = 0b11 << kFifoCtrl2ShiftUncoptrRate
-    kFifoCtrl2ShiftWtm = 7
+    kFifoCtrl2ShiftWtm = 0
     kFifoCtrl2MaskWtm = 0b1 << kFifoCtrl2ShiftWtm
 
     kRegFifoCtrl3 = 0x09
-    kFifoCtrl3ShiftBdrGy = 0
+    kFifoCtrl3ShiftBdrGy = 4
     kFifoCtrl3MaskBdrGy = 0b1111 << kFifoCtrl3ShiftBdrGy
-    kFifoCtrl3ShiftBdrXl = 4
+    kFifoCtrl3ShiftBdrXl = 0
     kFifoCtrl3MaskBdrXl = 0b1111 << kFifoCtrl3ShiftBdrXl
 
     kRegFifoCtrl4 = 0x0A
-    kFifoCtrl4ShiftOdrTsBatch = 0
+    kFifoCtrl4ShiftOdrTsBatch = 6
     kFifoCtrl4MaskOdrTsBatch = 0b11 << kFifoCtrl4ShiftOdrTsBatch
-    kFifoCtrl4ShiftOdrTBatch = 2
+    kFifoCtrl4ShiftOdrTBatch = 4
     kFifoCtrl4MaskOdrTBatch = 0b11 << kFifoCtrl4ShiftOdrTBatch
-    kFifoCtrl4ShiftFifoMode = 5
+    kFifoCtrl4ShiftFifoMode = 0
     kFifoCtrl4MaskFifoMode = 0b111 << kFifoCtrl4ShiftFifoMode
 
 
@@ -372,43 +372,43 @@ class QwiicISM330DHCX(object):
 
     # Interrupt configuration
     kRegTapCfg0 = 0x56
-    kTapCfg0ShiftIntClrOnRead = 1
+    kTapCfg0ShiftIntClrOnRead = 6
     kTapCfg0MaskIntClrOnRead = 0b1 << kTapCfg0ShiftIntClrOnRead
-    kTapCfg0ShiftSleepStatusOnInt = 2
+    kTapCfg0ShiftSleepStatusOnInt = 5
     kTapCfg0MaskSleepStatusOnInt = 0b1 << kTapCfg0ShiftSleepStatusOnInt
-    kTapCfg0ShiftSlopeFds = 3
+    kTapCfg0ShiftSlopeFds = 4
     kTapCfg0MaskSlopeFds = 0b1 << kTapCfg0ShiftSlopeFds
-    kTapCfg0ShiftTapXEn = 4
+    kTapCfg0ShiftTapXEn = 3
     kTapCfg0MaskTapXEn = 0b1 << kTapCfg0ShiftTapXEn
-    kTapCfg0ShiftTapYEn = 5
+    kTapCfg0ShiftTapYEn = 2
     kTapCfg0MaskTapYEn = 0b1 << kTapCfg0ShiftTapYEn
-    kTapCfg0ShiftTapZEn = 6
+    kTapCfg0ShiftTapZEn = 1
     kTapCfg0MaskTapZEn = 0b1 << kTapCfg0ShiftTapZEn
-    kTapCfg0ShiftLir = 7
+    kTapCfg0ShiftLir = 0
     kTapCfg0MaskLir = 0b1 << kTapCfg0ShiftLir
 
     kRegTapCfg2 = 0x58
-    kTapCfg2ShiftInterruptsEnable = 0
+    kTapCfg2ShiftInterruptsEnable = 7
     kTapCfg2MaskInterruptsEnable = 0b1 << kTapCfg2ShiftInterruptsEnable
-    kTapCfg2ShiftInactEn = 1
+    kTapCfg2ShiftInactEn = 5
     kTapCfg2MaskInactEn = 0b11 << kTapCfg2ShiftInactEn
-    kTapCfg2ShiftTapThsY = 3
+    kTapCfg2ShiftTapThsY = 0
     kTapCfg2MaskTapThsY = 0b11111 << kTapCfg2ShiftTapThsY
 
     kRegPageRw = 0x17
-    kPageRwShiftEmbFuncLir = 0
+    kPageRwShiftEmbFuncLir = 7
     kPageRwMaskEmbFuncLir = 0b1 << kPageRwShiftEmbFuncLir
-    kPageRwShiftPageRw = 1
+    kPageRwShiftPageRw = 5
     kPageRwMaskPageRw = 0b11 << kPageRwShiftPageRw
 
     kRegMlcInt1 = 0x0D
 
     kRegEmbFuncInt1 = 0x0A
-    kEmbFuncInt1ShiftFsmLc = 0
+    kEmbFuncInt1ShiftFsmLc = 7
     kEmbFuncInt1MaskFsmLc = 0b1 << kEmbFuncInt1ShiftFsmLc
-    kEmbFuncInt1ShiftSigMot = 1
+    kEmbFuncInt1ShiftSigMot = 5
     kEmbFuncInt1MaskSigMot = 0b1 << kEmbFuncInt1ShiftSigMot
-    kEmbFuncInt1ShiftTilt = 2
+    kEmbFuncInt1ShiftTilt = 4
     kEmbFuncInt1MaskTilt = 0b1 << kEmbFuncInt1ShiftTilt
     kEmbFuncInt1ShiftStepDetector = 3
     kEmbFuncInt1MaskStepDetector = 0b1 << kEmbFuncInt1ShiftStepDetector
@@ -420,49 +420,49 @@ class QwiicISM330DHCX(object):
     kRegFsmInt1B = 0x0C
 
     kRegInt1Ctrl = 0x0D
-    kInt1CtrlShiftDenDrdyFlag = 0
+    kInt1CtrlShiftDenDrdyFlag = 7
     kInt1CtrlMaskDenDrdyFlag = 0b1 << kInt1CtrlShiftDenDrdyFlag
-    kInt1CtrlShiftInt1CntBdr = 1
+    kInt1CtrlShiftInt1CntBdr = 6
     kInt1CtrlMaskInt1CntBdr = 0b1 << kInt1CtrlShiftInt1CntBdr
-    kInt1CtrlShiftInt1FifoFull = 2
+    kInt1CtrlShiftInt1FifoFull = 5
     kInt1CtrlMaskInt1FifoFull = 0b1 << kInt1CtrlShiftInt1FifoFull
-    kInt1CtrlShiftInt1FifoOvr = 3
+    kInt1CtrlShiftInt1FifoOvr = 4
     kInt1CtrlMaskInt1FifoOvr = 0b1 << kInt1CtrlShiftInt1FifoOvr
-    kInt1CtrlShiftInt1FifoTh = 4
+    kInt1CtrlShiftInt1FifoTh = 3
     kInt1CtrlMaskInt1FifoTh = 0b1 << kInt1CtrlShiftInt1FifoTh
-    kInt1CtrlShiftInt1Boot = 5
+    kInt1CtrlShiftInt1Boot = 2
     kInt1CtrlMaskInt1Boot = 0b1 << kInt1CtrlShiftInt1Boot
-    kInt1CtrlShiftInt1DrdyG = 6
+    kInt1CtrlShiftInt1DrdyG = 1
     kInt1CtrlMaskInt1DrdyG = 0b1 << kInt1CtrlShiftInt1DrdyG
-    kInt1CtrlShiftInt1DrdyXl = 7
+    kInt1CtrlShiftInt1DrdyXl = 0
     kInt1CtrlMaskInt1DrdyXl = 0b1 << kInt1CtrlShiftInt1DrdyXl
 
     kRegMd1Cfg = 0x5E
-    kMd1CfgShiftInt1SleepChange = 0
+    kMd1CfgShiftInt1SleepChange = 7
     kMd1CfgMaskInt1SleepChange = 0b1 << kMd1CfgShiftInt1SleepChange
-    kMd1CfgShiftInt1SingleTap = 1
+    kMd1CfgShiftInt1SingleTap = 6
     kMd1CfgMaskInt1SingleTap = 0b1 << kMd1CfgShiftInt1SingleTap
-    kMd1CfgShiftInt1Wu = 2
+    kMd1CfgShiftInt1Wu = 5
     kMd1CfgMaskInt1Wu = 0b1 << kMd1CfgShiftInt1Wu
-    kMd1CfgShiftInt1Ff = 3
+    kMd1CfgShiftInt1Ff = 4
     kMd1CfgMaskInt1Ff = 0b1 << kMd1CfgShiftInt1Ff
-    kMd1CfgShiftInt1DoubleTap = 4
+    kMd1CfgShiftInt1DoubleTap = 3
     kMd1CfgMaskInt1DoubleTap = 0b1 << kMd1CfgShiftInt1DoubleTap
-    kMd1CfgShiftInt16d = 5
+    kMd1CfgShiftInt16d = 2
     kMd1CfgMaskInt16d = 0b1 << kMd1CfgShiftInt16d
-    kMd1CfgShiftInt1EmbFunc = 6
+    kMd1CfgShiftInt1EmbFunc = 1
     kMd1CfgMaskInt1EmbFunc = 0b1 << kMd1CfgShiftInt1EmbFunc
-    kMd1CfgShiftInt1Shub = 7
+    kMd1CfgShiftInt1Shub = 0
     kMd1CfgMaskInt1Shub = 0b1 << kMd1CfgShiftInt1Shub
 
     kRegEmbFunInt2 = 0x0E
-    kEmbFuncInt2ShiftFsmLc = 0
+    kEmbFuncInt2ShiftFsmLc = 7
     kEmbFuncInt2MaskFsmLc = 0b1 << kEmbFuncInt2ShiftFsmLc
-    kEmbFuncInt2ShiftSigMot = 2
+    kEmbFuncInt2ShiftSigMot = 5
     kEmbFuncInt2MaskSigMot = 0b1 << kEmbFuncInt2ShiftSigMot
-    kEmbFuncInt2ShiftTilt = 3
+    kEmbFuncInt2ShiftTilt = 4
     kEmbFuncInt2MaskTilt = 0b1 << kEmbFuncInt2ShiftTilt
-    kEmbFuncInt2ShiftStepDetector = 4
+    kEmbFuncInt2ShiftStepDetector = 3
     kEmbFuncInt2MaskStepDetector = 0b1 << kEmbFuncInt2ShiftStepDetector
 
     kRegFsmInt2A = 0x0F
@@ -470,45 +470,45 @@ class QwiicISM330DHCX(object):
     kRegMlcInt2 = 0x11
 
     kRegInt2Ctrl = 0x0E
-    kInt2CtrlShiftInt2CntBdr = 1
+    kInt2CtrlShiftInt2CntBdr = 6
     kInt2CtrlMaskInt2CntBdr = 0b1 << kInt2CtrlShiftInt2CntBdr
-    kInt2CtrlShiftInt2FifoFull = 2
+    kInt2CtrlShiftInt2FifoFull = 5
     kInt2CtrlMaskInt2FifoFull = 0b1 << kInt2CtrlShiftInt2FifoFull
-    kInt2CtrlShiftInt2FifoOvr = 3
+    kInt2CtrlShiftInt2FifoOvr = 4
     kInt2CtrlMaskInt2FifoOvr = 0b1 << kInt2CtrlShiftInt2FifoOvr
-    kInt2CtrlShiftInt2FifoTh = 4
+    kInt2CtrlShiftInt2FifoTh = 3
     kInt2CtrlMaskInt2FifoTh = 0b1 << kInt2CtrlShiftInt2FifoTh
-    kInt2CtrlShiftInt2DrdyTemp = 5
+    kInt2CtrlShiftInt2DrdyTemp = 2
     kInt2CtrlMaskInt2DrdyTemp = 0b1 << kInt2CtrlShiftInt2DrdyTemp
-    kInt2CtrlShiftInt2DrdyG = 6
+    kInt2CtrlShiftInt2DrdyG = 1
     kInt2CtrlMaskInt2DrdyG = 0b1 << kInt2CtrlShiftInt2DrdyG
-    kInt2CtrlShiftInt2DrdyXl = 7
+    kInt2CtrlShiftInt2DrdyXl = 0
     kInt2CtrlMaskInt2DrdyXl = 0b1 << kInt2CtrlShiftInt2DrdyXl
 
     kRegMd2Cfg = 0x5F
-    kMd2CfgShiftInt2SleepChange = 0
+    kMd2CfgShiftInt2SleepChange = 7
     kMd2CfgMaskInt2SleepChange = 0b1 << kMd2CfgShiftInt2SleepChange
-    kMd2CfgShiftInt2SingleTap = 1
+    kMd2CfgShiftInt2SingleTap = 6
     kMd2CfgMaskInt2SingleTap = 0b1 << kMd2CfgShiftInt2SingleTap
-    kMd2CfgShiftInt2Wu = 2
+    kMd2CfgShiftInt2Wu = 5
     kMd2CfgMaskInt2Wu = 0b1 << kMd2CfgShiftInt2Wu
-    kMd2CfgShiftInt2Ff = 3
+    kMd2CfgShiftInt2Ff = 4
     kMd2CfgMaskInt2Ff = 0b1 << kMd2CfgShiftInt2Ff
-    kMd2CfgShiftInt2DoubleTap = 4
+    kMd2CfgShiftInt2DoubleTap = 3
     kMd2CfgMaskInt2DoubleTap = 0b1 << kMd2CfgShiftInt2DoubleTap
-    kMd2CfgShiftInt26d = 5
+    kMd2CfgShiftInt26d = 2
     kMd2CfgMaskInt26d = 0b1 << kMd2CfgShiftInt26d
-    kMd2CfgShiftInt2EmbFunc = 6
+    kMd2CfgShiftInt2EmbFunc = 1
     kMd2CfgMaskInt2EmbFunc = 0b1 << kMd2CfgShiftInt2EmbFunc
-    kMd2CfgShiftInt2Timestamp = 7
+    kMd2CfgShiftInt2Timestamp = 0
     kMd2CfgMaskInt2Timestamp = 0b1 << kMd2CfgShiftInt2Timestamp
 
     kRegSlv0Config = 0x17
-    kSlv0ConfigShiftShubOdr = 0
+    kSlv0ConfigShiftShubOdr = 6
     kSlv0ConfigMaskShubOdr = 0b11 << kSlv0ConfigShiftShubOdr
-    kSlv0ConfigShiftBatchExtSens0En = 4
+    kSlv0ConfigShiftBatchExtSens0En = 3
     kSlv0ConfigMaskBatchExtSens0En = 0b1 << kSlv0ConfigShiftBatchExtSens0En
-    kSlv0ConfigShiftSlave0Numop = 5
+    kSlv0ConfigShiftSlave0Numop = 0
     kSlv0ConfigMaskSlave0Numop = 0b111 << kSlv0ConfigShiftSlave0Numop
 
     # Data Ready Pulse modes
@@ -516,84 +516,84 @@ class QwiicISM330DHCX(object):
     kDrdyPulsed = 1
 
     kRegCntrBdr1 = 0x0B
-    kCntrBdr1ShiftDatareadyPulsed = 0
+    kCntrBdr1ShiftDatareadyPulsed = 7
     kCntrBdr1MaskDatareadyPulsed = 0b1 << kCntrBdr1ShiftDatareadyPulsed
-    kCntrBdr1ShiftRstCounterBdr = 1
+    kCntrBdr1ShiftRstCounterBdr = 6
     kCntrBdr1MaskRstCounterBdr = 0b1 << kCntrBdr1ShiftRstCounterBdr
-    kCntrBdr1ShiftTrigCounterBdr = 2
+    kCntrBdr1ShiftTrigCounterBdr = 5
     kCntrBdr1MaskTrigCounterBdr = 0b1 << kCntrBdr1ShiftTrigCounterBdr
-    kCntrBdr1ShiftCntBdrTh = 5
+    kCntrBdr1ShiftCntBdrTh = 0
     kCntrBdr1MaskCntBdrTh = 0b111 << kCntrBdr1ShiftCntBdrTh
 
     # Sensor Hub registers
     kRegDatawriteSlv0 = 0x21
     kRegSlv0Subadd = 0x16
     kRegSlv0Add = 0x15
-    kSlv0AddShiftSlave0 = 0
+    kSlv0AddShiftSlave0 = 1
     kSlv0AddMaskSlave0 = 0x7F << kSlv0AddShiftSlave0
-    kSlv0AddShiftRw0 = 7
+    kSlv0AddShiftRw0 = 0
     kSlv0AddMaskRw0 = 0b1 << kSlv0AddShiftRw0
     
     kRegSlv1Subadd = 0x19
     kRegSlv1Add = 0x18
-    kSlv1AddShiftSlave1 = 0
+    kSlv1AddShiftSlave1 = 1
     kSlv1AddMaskSlave1 = 0x7F << kSlv1AddShiftSlave1
-    kSlv1AddShiftR1 = 7
+    kSlv1AddShiftR1 = 0
 
     kRegslv1Config = 0x1A
-    kSlv1ConfigShiftBatchExtSens1En = 4
+    kSlv1ConfigShiftBatchExtSens1En = 3
     kSlv1ConfigMaskBatchExtSens1En = 0b1 << kSlv1ConfigShiftBatchExtSens1En
-    kSlv1ConfigShiftSlave1Numop = 5
+    kSlv1ConfigShiftSlave1Numop = 0
     kSlv1ConfigMaskSlave1Numop = 0b111 << kSlv1ConfigShiftSlave1Numop
 
     kRegSlv2Subadd = 0x1C
     kRegSlv2Add = 0x1B
 
     kRegSlv2Config = 0x1D
-    kSlv2ConfigShiftBatchExtSens2En = 4
+    kSlv2ConfigShiftBatchExtSens2En = 3
     kSlv2ConfigMaskBatchExtSens2En = 0b1 << kSlv2ConfigShiftBatchExtSens2En
-    kSlv2ConfigShiftSlave2Numop = 5
+    kSlv2ConfigShiftSlave2Numop = 0
     kSlv2ConfigMaskSlave2Numop = 0b111 << kSlv2ConfigShiftSlave2Numop
 
     kRegSlv3Subadd = 0x1F
     kRegSlv3Add = 0x1E
 
     kRegSlv3Config = 0x20
-    kSlv3ConfigShiftBatchExtSens3En = 4
+    kSlv3ConfigShiftBatchExtSens3En = 3
     kSlv3ConfigMaskBatchExtSens3En = 0b1 << kSlv3ConfigShiftBatchExtSens3En
-    kSlv3ConfigShiftSlave3Numop = 5
+    kSlv3ConfigShiftSlave3Numop = 0
     kSlv3ConfigMaskSlave3Numop = 0b111 << kSlv3ConfigShiftSlave3Numop
     
     kRegMasterConfig = 0x14
-    kMasterConfigShiftRstMasterRegs = 0
+    kMasterConfigShiftRstMasterRegs = 7
     kMasterConfigMaskRstMasterRegs = 0b1 << kMasterConfigShiftRstMasterRegs
-    kMasterConfigShiftWriteOnce = 1
+    kMasterConfigShiftWriteOnce = 6
     kMasterConfigMaskWriteOnce = 0b1 << kMasterConfigShiftWriteOnce
-    kMasterConfigShiftStartConfig = 2
+    kMasterConfigShiftStartConfig = 5
     kMasterConfigMaskStartConfig = 0b1 << kMasterConfigShiftStartConfig
-    kMasterConfigShiftPassThroughMode = 3
+    kMasterConfigShiftPassThroughMode = 4
     kMasterConfigMaskPassThroughMode = 0b1 << kMasterConfigShiftPassThroughMode
-    kMasterConfigShiftShubPuEn = 4
+    kMasterConfigShiftShubPuEn = 3
     kMasterConfigMaskShubPuEn = 0b1 << kMasterConfigShiftShubPuEn
-    kMasterConfigShiftMasterOn = 5
+    kMasterConfigShiftMasterOn = 2
     kMasterConfigMaskMasterOn = 0b1 << kMasterConfigShiftMasterOn
-    kMasterConfigShiftAuxSensOn = 6
+    kMasterConfigShiftAuxSensOn = 0
     kMasterConfigMaskAuxSensOn = 0b11 << kMasterConfigShiftAuxSensOn
 
     kRegSensorHub1 = 0x02
     kRegStatusMaster = 0x22
 
-    kStatusMasterShiftWrOnceDone = 0
+    kStatusMasterShiftWrOnceDone = 7
     kStatusMasterMaskWrOnceDone = 0b1 << kStatusMasterShiftWrOnceDone
-    kStatusMasterShiftSlave3Nack = 1
+    kStatusMasterShiftSlave3Nack = 6
     kStatusMasterMaskSlave3Nack = 0b1 << kStatusMasterShiftSlave3Nack
-    kStatusMasterShiftSlave2Nack = 2
+    kStatusMasterShiftSlave2Nack = 5
     kStatusMasterMaskSlave2Nack = 0b1 << kStatusMasterShiftSlave2Nack
-    kStatusMasterShiftSlave1Nack = 3
+    kStatusMasterShiftSlave1Nack = 4
     kStatusMasterMaskSlave1Nack = 0b1 << kStatusMasterShiftSlave1Nack
-    kStatusMasterShiftSlave0Nack = 4
+    kStatusMasterShiftSlave0Nack = 3
     kStatusMasterMaskSlave0Nack = 0b1 << kStatusMasterShiftSlave0Nack
-    kStatusMasterShiftSensHubEndop = 7
+    kStatusMasterShiftSensHubEndop = 0
     kStatusMasterMaskSensHubEndop = 0b1 << kStatusMasterShiftSensHubEndop
 
     kHubWriteModeCycle = 0 # Write each cycle
@@ -604,20 +604,20 @@ class QwiicISM330DHCX(object):
     kSelfTestNegative = 2
 
     kRegCtrl5C = 0x14
-    kCtrl5CShiftRounding = 1
+    kCtrl5CShiftRounding = 5
     kCtrl5CMaskRounding = 0b11 << kCtrl5CShiftRounding
-    kCtrl5CShiftStG = 4
+    kCtrl5CShiftStG = 2
     kCtrl5CMaskStG = 0b11 << kCtrl5CShiftStG
-    kCtrl5CShiftStXl = 6
+    kCtrl5CShiftStXl = 0
     kCtrl5CMaskStXl = 0b11 << kCtrl5CShiftStXl
 
     # Status Register
     kRegStatus = 0x1E
-    kStatusShiftTda = 5
+    kStatusShiftTda = 2
     kStatusMaskTda = 0b1 << kStatusShiftTda
-    kStatusShiftGda = 6
+    kStatusShiftGda = 1
     kStatusMaskGda = 0b1 << kStatusShiftGda
-    kStatusShiftXlda = 7
+    kStatusShiftXlda = 0
     kStatusMaskXlda = 0b1 << kStatusShiftXlda
 
     def __init__(self, address=None, i2c_driver=None):
@@ -718,7 +718,7 @@ class QwiicISM330DHCX(object):
         :param val: The scale to be applied to the gyroscope (0, 1, 2, 4, 6, 12)
         :type val: int
         """
-        if val < self.kGyroFs125dps or val > self.kGyroFs4000dps:
+        if val < self.kGyroFs250dps or val > self.kGyroFs2000dps:
             return
 
         regVal = self._i2c.readByte(self.address, self.kRegCtrl2G)
@@ -789,7 +789,7 @@ class QwiicISM330DHCX(object):
         :param reg: The register to read from
         :type reg: int
         """
-        bytes = self._i2c.read_block(self.address, reg)
+        bytes = self._i2c.read_block(self.address, reg, 6)
 
         dataOut = IsmData()
         dataOut.xData = (bytes[1] << 8) | bytes[0]
@@ -958,7 +958,7 @@ class QwiicISM330DHCX(object):
         """
         val = self._i2c.readByte(self.address, self.kRegCtrl3C)
 
-        return bool(val & self.kCtrl3CMaskSwReset)
+        return (val & self.kCtrl3CMaskSwReset) == 0
 
     def set_accel_slope_filter(self, val):
         """
@@ -2259,7 +2259,6 @@ class QwiicISM330DHCX(object):
         """
         status = self._i2c.readByte(self.address, self.kRegStatus)
 
-        print("Status byte:", hex(status))
         if status & self.kStatusMaskXlda and status & self.kStatusMaskGda:
             return True
         
