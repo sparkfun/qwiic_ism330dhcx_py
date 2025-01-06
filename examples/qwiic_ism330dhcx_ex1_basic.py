@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# qwiic_template_ex1_title.py TODO: replace template and title
+# qwiic_ism330dhcx_ex1_basic.py
 #
-# TODO: Add description for this example
+# This example shows the basic settings and functions for retrieving accelerometer and gyroscopic data
 #-------------------------------------------------------------------------------
-# Written by SparkFun Electronics, TODO: month and year
+# Written by SparkFun Electronics, January 2025
 #
 # This python library supports the SparkFun Electroncis Qwiic ecosystem
 #
@@ -33,26 +33,63 @@
 # SOFTWARE.
 #===============================================================================
 
-import qwiic_ism330dhcx # TODO Import correct package
+import qwiic_ism330dhcx
 import sys
+import time
 
 def runExample():
-	# TODO Replace template and title
-	print("\nQwiic Template Example 1 - Title\n")
+	print("\nQwiic ISM330DHCX Example 1 - Basic Readings\n")
 
 	# Create instance of device
-	myDevice = qwiic_ism330dhcx.QwiicTemplate() # TODO update as needed
+	myIsm = qwiic_ism330dhcx.QwiicISM330DHCX()
 
 	# Check if it's connected
-	if myDevice.is_connected() == False:
+	if myIsm.is_connected() == False:
 		print("The device isn't connected to the system. Please check your connection", \
 			file=sys.stderr)
 		return
 
-	# Initialize the device
-	myDevice.begin()
+	myIsm.begin()
+	# Reset the device to default settings. This if helpful is you're doing multiple
+	# uploads testing different settings. 
+	myIsm.device_reset()
 
-	# TODO Add basic example code
+	# Wait for it to finish resetting
+	while myIsm.get_device_reset() == False:
+		time.sleep(1)
+
+	print("Reset.")
+	print("Applying settings.")
+	time.sleep(0.100)
+
+	myIsm.set_device_config()
+	myIsm.set_block_data_update()
+
+	# Set the output data rate and precision of the accelerometer
+	myIsm.set_accel_data_rate(myIsm.kXlOdr104Hz)
+	myIsm.set_accel_full_scale(myIsm.kXlFs4g)
+
+	# Set the output data rate and precision of the gyroscope
+	myIsm.set_gyro_data_rate(myIsm.kGyroOdr104Hz)
+	myIsm.set_gyro_full_scale(myIsm.kGyroFs500dps)
+
+	# Turn on the accelerometer's filter and apply settings
+	myIsm.set_accel_filter_lp2()
+	myIsm.set_accel_slope_filter(myIsm.kLpOdrDiv100)
+
+	# Turn on the gyroscope's filter and apply settings
+	myIsm.set_gyro_filter_lp1()
+	myIsm.set_gyro_lp1_bandwidth(myIsm.kBwMedium)
+
+	while True:
+		if myIsm.check_status():
+			# Get the accelerometer data
+			accelData = myIsm.get_accel()
+			print("Accel X: %f, Y: %f, Z: %f " % (accelData.xData, accelData.yData, accelData.zData), end='')
+			gyroData = myIsm.get_gyro()
+			print("Gyro X: %f, Y: %f, Z: %f" % (gyroData.xData, gyroData.yData, gyroData.zData))
+		
+		time.sleep(0.100) # Delay so that we don't spam user console or I2C bus
 
 if __name__ == '__main__':
 	try:

@@ -412,6 +412,9 @@ class QwiicISM330DHCX(object):
     kEmbFuncInt1MaskTilt = 0b1 << kEmbFuncInt1ShiftTilt
     kEmbFuncInt1ShiftStepDetector = 3
     kEmbFuncInt1MaskStepDetector = 0b1 << kEmbFuncInt1ShiftStepDetector
+    
+    kRegFsmEnableA = 0x46
+    kRegFsmEnableB = 0x47
 
     kRegFsmInt1A = 0x0B
     kRegFsmInt1B = 0x0C
@@ -451,7 +454,6 @@ class QwiicISM330DHCX(object):
     kMd1CfgMaskInt1EmbFunc = 0b1 << kMd1CfgShiftInt1EmbFunc
     kMd1CfgShiftInt1Shub = 7
     kMd1CfgMaskInt1Shub = 0b1 << kMd1CfgShiftInt1Shub
-
 
     kRegEmbFunInt2 = 0x0E
     kEmbFuncInt2ShiftFsmLc = 0
@@ -523,6 +525,100 @@ class QwiicISM330DHCX(object):
     kCntrBdr1ShiftCntBdrTh = 5
     kCntrBdr1MaskCntBdrTh = 0b111 << kCntrBdr1ShiftCntBdrTh
 
+    # Sensor Hub registers
+    kRegDatawriteSlv0 = 0x21
+    kRegSlv0Subadd = 0x16
+    kRegSlv0Add = 0x15
+    kSlv0AddShiftSlave0 = 0
+    kSlv0AddMaskSlave0 = 0x7F << kSlv0AddShiftSlave0
+    kSlv0AddShiftRw0 = 7
+    kSlv0AddMaskRw0 = 0b1 << kSlv0AddShiftRw0
+    
+    kRegSlv1Subadd = 0x19
+    kRegSlv1Add = 0x18
+    kSlv1AddShiftSlave1 = 0
+    kSlv1AddMaskSlave1 = 0x7F << kSlv1AddShiftSlave1
+    kSlv1AddShiftR1 = 7
+
+    kRegslv1Config = 0x1A
+    kSlv1ConfigShiftBatchExtSens1En = 4
+    kSlv1ConfigMaskBatchExtSens1En = 0b1 << kSlv1ConfigShiftBatchExtSens1En
+    kSlv1ConfigShiftSlave1Numop = 5
+    kSlv1ConfigMaskSlave1Numop = 0b111 << kSlv1ConfigShiftSlave1Numop
+
+    kRegSlv2Subadd = 0x1C
+    kRegSlv2Add = 0x1B
+
+    kRegSlv2Config = 0x1D
+    kSlv2ConfigShiftBatchExtSens2En = 4
+    kSlv2ConfigMaskBatchExtSens2En = 0b1 << kSlv2ConfigShiftBatchExtSens2En
+    kSlv2ConfigShiftSlave2Numop = 5
+    kSlv2ConfigMaskSlave2Numop = 0b111 << kSlv2ConfigShiftSlave2Numop
+
+    kRegSlv3Subadd = 0x1F
+    kRegSlv3Add = 0x1E
+
+    kRegSlv3Config = 0x20
+    kSlv3ConfigShiftBatchExtSens3En = 4
+    kSlv3ConfigMaskBatchExtSens3En = 0b1 << kSlv3ConfigShiftBatchExtSens3En
+    kSlv3ConfigShiftSlave3Numop = 5
+    kSlv3ConfigMaskSlave3Numop = 0b111 << kSlv3ConfigShiftSlave3Numop
+    
+    kRegMasterConfig = 0x14
+    kMasterConfigShiftRstMasterRegs = 0
+    kMasterConfigMaskRstMasterRegs = 0b1 << kMasterConfigShiftRstMasterRegs
+    kMasterConfigShiftWriteOnce = 1
+    kMasterConfigMaskWriteOnce = 0b1 << kMasterConfigShiftWriteOnce
+    kMasterConfigShiftStartConfig = 2
+    kMasterConfigMaskStartConfig = 0b1 << kMasterConfigShiftStartConfig
+    kMasterConfigShiftPassThroughMode = 3
+    kMasterConfigMaskPassThroughMode = 0b1 << kMasterConfigShiftPassThroughMode
+    kMasterConfigShiftShubPuEn = 4
+    kMasterConfigMaskShubPuEn = 0b1 << kMasterConfigShiftShubPuEn
+    kMasterConfigShiftMasterOn = 5
+    kMasterConfigMaskMasterOn = 0b1 << kMasterConfigShiftMasterOn
+    kMasterConfigShiftAuxSensOn = 6
+    kMasterConfigMaskAuxSensOn = 0b11 << kMasterConfigShiftAuxSensOn
+
+    kRegSensorHub1 = 0x02
+    kRegStatusMaster = 0x22
+
+    kStatusMasterShiftWrOnceDone = 0
+    kStatusMasterMaskWrOnceDone = 0b1 << kStatusMasterShiftWrOnceDone
+    kStatusMasterShiftSlave3Nack = 1
+    kStatusMasterMaskSlave3Nack = 0b1 << kStatusMasterShiftSlave3Nack
+    kStatusMasterShiftSlave2Nack = 2
+    kStatusMasterMaskSlave2Nack = 0b1 << kStatusMasterShiftSlave2Nack
+    kStatusMasterShiftSlave1Nack = 3
+    kStatusMasterMaskSlave1Nack = 0b1 << kStatusMasterShiftSlave1Nack
+    kStatusMasterShiftSlave0Nack = 4
+    kStatusMasterMaskSlave0Nack = 0b1 << kStatusMasterShiftSlave0Nack
+    kStatusMasterShiftSensHubEndop = 7
+    kStatusMasterMaskSensHubEndop = 0b1 << kStatusMasterShiftSensHubEndop
+
+    kHubWriteModeCycle = 0 # Write each cycle
+    kHubWriteModeSingle = 1 # Write once
+
+    kSelfTestDisable = 0
+    kSelfTestPositive = 1
+    kSelfTestNegative = 2
+
+    kRegCtrl5C = 0x14
+    kCtrl5CShiftRounding = 1
+    kCtrl5CMaskRounding = 0b11 << kCtrl5CShiftRounding
+    kCtrl5CShiftStG = 4
+    kCtrl5CMaskStG = 0b11 << kCtrl5CShiftStG
+    kCtrl5CShiftStXl = 6
+    kCtrl5CMaskStXl = 0b11 << kCtrl5CShiftStXl
+
+    # Status Register
+    kRegStatus = 0x1E
+    kStatusShiftTda = 5
+    kStatusMaskTda = 0b1 << kStatusShiftTda
+    kStatusShiftGda = 6
+    kStatusMaskGda = 0b1 << kStatusShiftGda
+    kStatusShiftXlda = 7
+    kStatusMaskXlda = 0b1 << kStatusShiftXlda
 
     def __init__(self, address=None, i2c_driver=None):
         """
@@ -826,7 +922,7 @@ class QwiicISM330DHCX(object):
     def convert_lsb_to_nsec(self, lsb):
         return lsb * 25000.0
 
-    def set_device_config(self, enable):
+    def set_device_config(self, enable=True):
         """
         Enable the general device configuration
         
@@ -894,7 +990,7 @@ class QwiicISM330DHCX(object):
         
         self._i2c.writeByte(self.address, self.kRegCtrl8XL, regVal)
     
-    def set_accel_filter_lp2(self, enable):
+    def set_accel_filter_lp2(self, enable = True):
         """
         Enable the accelerometer's high resolution slope filter
         
@@ -911,7 +1007,7 @@ class QwiicISM330DHCX(object):
 
         self._i2c.writeByte(self.address, self.kRegCtrl1XL, val)
 
-    def set_gyro_filter_lp1(self, enable):
+    def set_gyro_filter_lp1(self, enable = True):
         """
         Enables the gyroscope's slope filter
 
@@ -955,7 +1051,7 @@ class QwiicISM330DHCX(object):
 
         self._i2c.writeByte(self.address, self.kRegCtrl6C, regVal)
 
-    def set_block_data_update(self, enable):
+    def set_block_data_update(self, enable = True):
         """
         Data is not updated until both MSB and LSB have been read from output registers
 
@@ -1169,8 +1265,8 @@ class QwiicISM330DHCX(object):
 
         regVal = self._i2c.readByte(self.address, self.kRegCtrl1XL)
 
-        regVal &= ~self.kCtrl1XlMaskOdrXl
-        regVal |= (odrXl << self.kCtrl1XlShiftOdrXl)
+        regVal &= ~self.kCtrl1XlMaskOdr
+        regVal |= (odrXl << self.kCtrl1XlShiftOdr)
 
         self._i2c.writeByte(self.address, self.kRegCtrl1XL, regVal)
 
@@ -1271,7 +1367,7 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl2G, regVal)
 
 
-    def enable_timestamp(self, enable):
+    def enable_timestamp(self, enable = True):
         """
         Enables the timestamp counter.
         
@@ -1641,7 +1737,7 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegTapCfg2, tapCfg2)
 
         
-    def set_accel_status_to_int1(self, enable):
+    def set_accel_status_to_int1(self, enable = True):
         """
         Sends the accelerometer's data ready signal to interrupt one.
 
@@ -1659,7 +1755,7 @@ class QwiicISM330DHCX(object):
         self._pin_int1_route_set(route)
     
 
-    def set_fifo_threshold_int1(self, enable):
+    def set_fifo_threshold_int1(self, enable = True):
         """
         Sends the accelerometer's data ready signal to interrupt one.
 
@@ -1676,7 +1772,7 @@ class QwiicISM330DHCX(object):
 
         self._pin_int1_route_set(route)
 
-    def set_batch_counter_int1(self, enable):
+    def set_batch_counter_int1(self, enable = True):
         """
         Sends the accelerometer's data ready signal to interrupt one.
 
@@ -1693,7 +1789,7 @@ class QwiicISM330DHCX(object):
 
         self._pin_int1_route_set(route)
 
-    def set_accel_status_to_int2(self, enable):
+    def set_accel_status_to_int2(self, enable = True):
         """
         Sends the accelerometer's data ready signal to interrupt two.
         
@@ -1710,7 +1806,7 @@ class QwiicISM330DHCX(object):
 
         self._pin_int2_route_set(route)
     
-    def set_gyro_status_to_int1(self, enable):
+    def set_gyro_status_to_int1(self, enable = True):
         """
         Sends the gyroscope's data ready signal to interrupt one.
         
@@ -1727,7 +1823,7 @@ class QwiicISM330DHCX(object):
 
         self._pin_int1_route_set(route)
 
-    def set_gyro_status_to_int2(self, enable):
+    def set_gyro_status_to_int2(self, enable = True):
         """
         Sends the gyroscope's data ready signal to interrupt two.
         
@@ -1792,11 +1888,415 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegSlv0Config, regVal)
 
         self._mem_bank_set(self.kUserBank)
-    
-    class _SensorSettings():
-        def __init__(self):
-            self.address = 0
-            self.subAddress = 0
-            self.data = 0
 
-    # TODO: Add more methods as needed
+
+    def set_hub_sensor_read(self, sensor, address, subAddress, lenData):
+        """
+        Sets the general sensor hub settings, which sensor and their I2C address and register
+        to read.
+
+        :param sensor: The sensor to read from
+        :type sensor: int
+        
+        :param address: The I2C address of the sensor
+        :type address: int
+
+        :param subAddress: The register address of the sensor
+        :type subAddress: int
+
+        :param lenData: The length of data to read from the sensor
+        :type lenData: int
+        """
+        if sensor < 0 or sensor > 3:
+            return
+        
+        if sensor == 0:
+            slvAddReg = self.kRegSlv0Addr
+            slvSubaddReg = self.kRegSlv0Subadd
+            slvConfigReg = self.kRegSlv0Config
+        elif sensor == 1:
+            slvAddReg = self.kRegSlv1Addr
+            slvSubaddReg = self.kRegSlv1Subadd
+            slvConfigReg = self.kRegSlv1Config
+        elif sensor == 2:
+            slvAddReg = self.kRegSlv2Addr
+            slvSubaddReg = self.kRegSlv2Subadd
+            slvConfigReg = self.kRegSlv2Config
+        elif sensor == 3:
+            slvAddReg = self.kRegSlv3Addr
+            slvSubaddReg = self.kRegSlv3Subadd
+            slvConfigReg = self.kRegSlv3Config
+        
+        
+        self._mem_bank_set(self.kSensorHubBank)
+        
+        # TODO: okay to use slave0 vals for all of this masking since bit pos are the same for all 3 slaves. 
+        #       the vendor API explicitly has a different function for each slave, so we might want to switch to that way,
+        #       but it creates a lot of duplicated code
+        slvAddVal = (address >> 1) << self.kSlv0AddShiftSlave0
+        slvAddVal |= self.kSlv0AddMaskRw0 
+
+        self._i2c.writeByte(self.address, slvAddReg, slvAddVal)
+
+        self._i2c.writeByte(self.address, slvSubaddReg, subAddress)
+
+        slvConfigRead = self._i2c.readByte(self.address, slvConfigReg)
+
+        slvConfigRead &= ~self.kSlv0ConfigMaskSlave0Numop
+        slvConfigRead |= (lenData << self.kSlv0ConfigShiftSlave0Numop)
+
+        self._i2c.writeByte(self.address, slvConfigReg, slvConfigRead)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def set_hub_sensor_write(self, address, subAddress, data):
+        """
+        Gives settings to the 6DoF to write to an external sensor.
+        
+        :param address: The I2C address of the sensor
+        :type address: int
+
+        :param subAddress: The register address of the sensor
+        :type subAddress: int
+
+        :param data: The single byte data to write to the sensor
+        :type data: int
+        """
+        
+        if data < 0 or data > 255:
+            return
+        
+        self._mem_bank_set(self.kSensorHubBank)
+
+        slv0AddVal = (address >> 1) << self.kSlv0AddShiftSlave0
+        slv0AddVal &= ~self.kSlv0AddMaskRw0
+
+        self._i2c.writeByte(self.address, self.kRegSlv0Addr, slv0AddVal)
+
+        self._i2c.writeByte(self.address, self.kRegSlv0Subadd, subAddress)
+
+        self._i2c.writeByte(self.address, self.kRegDatawriteSlv0, data)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def set_number_hub_sensors(self, highestSlave):
+        """
+        Sets the number of sensors that the sensor hub will read from.
+
+        :param highestSlave: The highest sensor number to read from (0-3)
+        :type highestSlave: int
+
+        For example, if highest slave is set to 2, the sensor hub will read from sensors 0, 1, and 2.
+        """
+        if highestSlave < 0 or highestSlave > 3:
+            return
+        
+        self._mem_bank_set(self.kSensorHubBank)
+
+        masterConfig = self._i2c.readByte(self.address, self.kRegMasterConfig)
+
+        masterConfig &= ~self.kMasterConfigMaskAuxSensOn
+        masterConfig |= (highestSlave << self.kMasterConfigShiftAuxSensOn)
+
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def enable_sensor_i2c(self, enable = True):
+        """
+        Enables the 6DoF as an I2C sensor controller
+
+        :param enable: Enable or disable the sensor I2C controller
+        :type enable: bool
+        """
+
+        if enable != 1 and enable != 0:
+            return
+
+        self._mem_bank_set(self.kSensorHubBank)
+
+        masterConfig = self._i2c.readByte(self.address, self.kRegMasterConfig)
+
+        masterConfig &= ~self.kMasterConfigMaskMasterOn
+        masterConfig |= (enable << self.kMasterConfigShiftMasterOn)
+
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def read_peripheral_sensor(self, len):
+        """
+        Read external sensor data from the sensor hub
+
+        :param len: The number of bytes to read from the sensor
+        :type len: int
+
+        :return: The data read from the sensor
+        :rtype: list
+        """
+
+        self._mem_bank_set(self.kSensorHubBank)
+
+        data = list(self._i2c.readBytes(self.address, self.kRegSensorHub1, len))
+
+        self._mem_bank_set(self.kUserBank)
+
+        return data
+
+    def _sh_status_get(self): 
+        """
+        Read the sensor hub source register
+
+        :return: The status of the sensor hub
+        :rtype: int
+        """
+
+        self._mem_bank_set(self.kSensorHubBank)
+
+        status = self._i2c.readByte(self.address, self.kRegStatusMaster)
+
+        self._mem_bank_set(self.kUserBank)
+
+        return status
+
+
+    def get_hub_status(self):
+        """
+        Checks whether communication with the external sensor has concluded.
+
+        :return: Whether communication has ended or not
+        :rtype: bool
+        """
+        status = self._sh_status_get()
+
+        if status & self.kStatusMasterMaskSensHubEndop:
+            return True
+        
+        return False
+    
+    def get_external_sensor_nack(self, sensor):
+        """
+        Get the NACK status of the external sensor
+
+        :param sensor: The sensor to check
+        :type sensor: int
+        """
+        status = self._sh_status_get()
+        
+        if sensor == 0:
+            return status & self.kStatusMasterMaskSlave0Nack
+        elif sensor == 1:
+            return status & self.kStatusMasterMaskSlave1Nack
+        elif sensor == 2:
+            return status & self.kStatusMasterMaskSlave2Nack
+        elif sensor == 3:
+            return status & self.kStatusMasterMaskSlave3Nack
+        
+        return False
+
+    def read_mmc_magnetometer(self, len):
+        """
+        Read data from the MMC magnetometer 
+       
+        :param len: The number of bytes to read from the magnetometer
+        :type len: int
+
+        :return: The data read from the magnetometer
+        :rtype: list
+        """
+        return self.read_peripheral_sensor(len)
+    
+    def set_hub_write_mode(self, config):
+        """
+        Sets how often the 6DoF should write to the external sensor: once per cycle i.e. output
+        data rate, or just once.
+
+        :param config: The write mode
+        :type config: int
+
+        Possible values:
+            - kHubWriteModeSingle
+            - kHubWriteModeCycle
+        """
+        if config not in [self.kHubWriteModeSingle, self.kHubWriteModeCycle]:
+            return
+        
+        self._mem_bank_set(self.kSensorHubBank)
+
+        masterConfig = self._i2c.readByte(self.address, self.kRegMasterConfig)
+        masterConfig &= ~self.kMasterConfigMaskWriteOnce
+        masterConfig |= (config << self.kMasterConfigShiftWriteOnce)
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def set_hub_pass_through(self, enable = True):
+        """
+        Allows the primary I2C data lines to communicate through the auxiliary I2C lines.
+
+        :param enable: Enable or disable the pass through
+        :type enable: bool      
+        """
+
+        self._mem_bank_set(self.kSensorHubBank)
+
+        masterConfig = self._i2c.readByte(self.address, self.kRegMasterConfig)
+        masterConfig &= ~self.kMasterConfigShiftPassThroughMode
+        masterConfig |= (enable << self.kMasterConfigShiftPassThroughMode)
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def set_hub_fifo_batching(self, enable = True):
+        """
+        Sets sensor hub FIFO batching
+
+        :param enable: Enable or disable the FIFO batching
+        :type enable: bool
+        """
+        if enable != 1 and enable != 0:
+            return
+
+        self._mem_bank_set(self.kSensorHubBank)
+
+        slv0Config = self._i2c.readByte(self.address, self.kRegSlv0Config)
+
+        slv0Config &= ~self.kSlv0ConfigMaskBatchExtSens0En
+        slv0Config |= (enable << self.kSlv0ConfigShiftBatchExtSens0En)
+
+        self._i2c.writeByte(self.address, self.kRegSlv0Config, slv0Config)
+
+        self._mem_bank_set(self.kUserBank)
+
+
+    def set_hub_pull_ups(self, enable = True):
+        """
+        Enables/Disables internal pullups on SDX/SCX lines
+
+        :param enable: Enable or disable the pullups
+        :type enable: bool
+        """
+        if enable != 1 and enable != 0:
+            return
+        
+        self._mem_bank_set(self.kSensorHubBank)
+
+        masterConfig = self._i2c.readByte(self.address, self.kRegMasterConfig)
+        masterConfig &= ~self.kMasterConfigMaskShubPuEn
+        masterConfig |= (enable << self.kMasterConfigShiftShubPuEn)
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+
+        self._mem_bank_set(self.kUserBank)
+
+    def reset_sensor_hub(self):
+        """
+        Resets all settings in the "Master Config" register
+        """
+        self._mem_bank_set(self.kSensorHubBank)
+
+        masterConfig = self._i2c.readByte(self.address, self.kRegMasterConfig)
+        masterConfig |= self.kMasterConfigMaskRstMasterRegs
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+        masterConfig &= ~self.kMasterConfigMaskRstMasterRegs
+        self._i2c.writeByte(self.address, self.kRegMasterConfig, masterConfig)
+
+        self._mem_bank_set(self.kUserBank)
+
+
+    # Self Test Functions
+    def setAccelSelfTest(self, val):
+        """
+        Linear acceleration sensor self-test enable.
+
+        :param val: Change the values of st_xl in reg CTRL5_C
+        :type val: int
+
+        Possible values:
+            - kSelfTestDisable
+            - kSelfTestPositive
+            - kSelfTestNegative
+        """
+        if val not in [self.kSelfTestDisable, self.kSelfTestPositive, self.kSelfTestNegative]:
+            return
+        
+        regVal = self._i2c.readByte(self.address, self.kRegCtrl5C)
+
+        regVal &= ~self.kCtrl5CMaskStXl
+        regVal |= (val << self.kCtrl5CShiftStXl)
+
+        self._i2c.writeByte(self.address, self.kRegCtrl5C, regVal)
+
+    def setGyroSelfTest(self, val):
+        """
+        Angular rate sensor self-test enable
+
+        :param val: Change the values of st_g in reg CTRL5_C
+        :type val: int
+
+        Possible values:
+            - kSelfTestDisable
+            - kSelfTestPositive
+            - kSelfTestNegative
+        """
+        if val not in [self.kSelfTestDisable, self.kSelfTestPositive, self.kSelfTestNegative]:
+            return
+        
+        regVal = self._i2c.readByte(self.address, self.kRegCtrl5C)
+
+        regVal &= ~self.kCtrl5CMaskStG
+        regVal |= (val << self.kCtrl5CShiftStG)
+
+        self._i2c.writeByte(self.address, self.kRegCtrl5C, regVal)
+
+    # Status Checking Functions
+
+    def check_status(self):
+        """
+        Checks if data is ready for both the acclerometer and the gyroscope
+
+        :return: If data is ready for both sensors
+        :rtype: bool
+        """
+        status = self._i2c.readByte(self.address, self.kRegStatus)
+
+        print("Status byte:", hex(status))
+        if status & self.kStatusMaskXlda and status & self.kStatusMaskGda:
+            return True
+        
+        return False
+    
+    def check_accel_status(self):
+        """
+        Checks if data is ready for the accelerometer
+
+        :return: If data is ready for the accelerometer
+        :rtype: bool
+        """
+        status = self._i2c.readByte(self.address, self.kRegStatus)
+
+        if status & self.kStatusMaskXlda:
+            return True
+        
+        return False
+    
+    def check_gyro_status(self):
+        """
+        Checks if data is ready for the gyroscope
+        """
+        status = self._i2c.readByte(self.address, self.kRegStatus)
+
+        if status & self.kStatusMaskGda:
+            return True
+        
+        return False
+    
+    def check_temp_status(self):
+        """
+        Checks if data is ready for the temperature sensor
+        """
+        status = self._i2c.readByte(self.address, self.kRegStatus)
+
+        if status & self.kStatusMaskTda:
+            return True
+        
+        return False
