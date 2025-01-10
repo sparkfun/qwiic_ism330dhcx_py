@@ -33,7 +33,7 @@
 # SOFTWARE.
 #===============================================================================
 
-"""
+"""!
 qwiic_ism330dhcx
 ============
 Python module for the [SparkFun Qwiic ISM330DHCX](https://www.sparkfun.com/products/19764)
@@ -621,15 +621,13 @@ class QwiicISM330DHCX(object):
     kStatusMaskXlda = 0b1 << kStatusShiftXlda
 
     def __init__(self, address=None, i2c_driver=None):
-        """
+        """!
         Constructor
 
-        :param address: The I2C address to use for the device
+        @param int, optional address: The I2C address to use for the device
             If not provided, the default address is used
-        :type address: int, optional
-        :param i2c_driver: An existing i2c driver object
+        @param I2CDriver, optional i2c_driver: An existing i2c driver object
             If not provided, a driver object is created
-        :type i2c_driver: I2CDriver, optional
         """
 
         # Use address if provided, otherwise pick the default
@@ -651,11 +649,10 @@ class QwiicISM330DHCX(object):
         self._fullScaleGyro = 0  # powered down by default
 
     def is_connected(self):
-        """
+        """!
         Determines if this device is connected
 
-        :return: `True` if connected, otherwise `False`
-        :rtype: bool
+        @return **bool** `True` if connected, otherwise `False`
         """
         
         if self._i2c.isDeviceConnected(self.address) == False:
@@ -668,30 +665,27 @@ class QwiicISM330DHCX(object):
     connected = property(is_connected)
 
     def begin(self):
-        """
+        """!
         Initializes this device with default parameters
 
-        :return: Returns `True` if successful, otherwise `False`
-        :rtype: bool
+        @return **bool** Returns `True` if successful, otherwise `False`
         """
         # Confirm device is connected before doing anything
         return self.is_connected()
 
     def get_id(self):
-        """
+        """!
         Get the device ID
 
-        :return: The device ID
-        :rtype: int
+        @return **int** The device ID
         """
         return self._i2c.readByte(self.address, self.kRegWhoAmI)
 
     def set_accel_full_scale(self, val):
-        """
+        """!
         Set the scale of the accelerometer's readings 2g - 16g
 
-        :param val: The scale to be applied to the accelerometer (0 - 3)
-        :type val: int
+        @param int val: The scale to be applied to the accelerometer (0 - 3)
 
         Possible values:
             - kXlFs2g
@@ -712,11 +706,10 @@ class QwiicISM330DHCX(object):
         self._fullScaleAccel = val
     
     def set_gyro_full_scale(self, val):
-        """
+        """!
         Set the scale of the gyroscope's readings 125, 250, 500, 1000, 2000, 4000 degrees per second
 
-        :param val: The scale to be applied to the gyroscope (0, 1, 2, 4, 6, 12)
-        :type val: int
+        @param int val: The scale to be applied to the gyroscope (0, 1, 2, 4, 6, 12)
         """
         if val < self.kGyroFs250dps or val > self.kGyroFs2000dps:
             return
@@ -731,11 +724,10 @@ class QwiicISM330DHCX(object):
         self._fullScaleGyro = val
 
     def get_accel_full_scale(self):
-        """
+        """!
         Get the scale of the accelerometer's readings
 
-        :return: The scale of the accelerometer's readings
-        :rtype: int
+        @return **int** The scale of the accelerometer's readings
 
         Possible return values:
             - kXlFs2g
@@ -749,11 +741,10 @@ class QwiicISM330DHCX(object):
 
 
     def get_gyro_full_scale(self):
-        """
+        """!
         Get the scale of the gyroscope's readings
 
-        :return: The scale of the gyroscope's readings
-        :rtype: int
+        @return **int** The scale of the gyroscope's readings
 
         Possible return values:
             - kGyroFs125dps
@@ -768,11 +759,10 @@ class QwiicISM330DHCX(object):
         return (regVal & self.kCtrl2GMaskFs) >> self.kCtrl2GShiftFs
 
     def get_temp(self):
-        """
+        """!
         Get the temperature
 
-        :return: The temperature in degrees Celsius
-        :rtype: float
+        @return **float** The temperature in degrees Celsius
         """
         temp = self._i2c.read_block(self.address, self.kRegOutTempL,2)
         val = (temp[1] << 8) | temp[0]
@@ -783,11 +773,10 @@ class QwiicISM330DHCX(object):
         return val
 
     def _get_raw_data(self, reg):
-        """
+        """!
         Get the raw data from the specified register
-        
-        :param reg: The register to read from
-        :type reg: int
+
+        @param int reg: The register to read from
         """
         bytes = self._i2c.read_block(self.address, reg, 6)
 
@@ -804,38 +793,30 @@ class QwiicISM330DHCX(object):
         return dataOut
 
     def get_raw_accel(self):
-        """
+        """!
         Get the raw accelerometer readings
 
-        :return: The raw accelerometer readings
-        :rtype: list
+        @return **list** The raw accelerometer readings
         """
         return self._get_raw_data(self.kRegOutXLA)
     
     def get_raw_gyro(self):
-        """
+        """!
         Get the raw gyroscope readings
 
-        :return: The raw gyroscope readings
-        :rtype: list
+        @return **list** The raw gyroscope readings
         """
         return self._get_raw_data(self.kRegOutXLG)
 
     def _convert_data(self, data, key, convDict):
-        """
+        """!
         Use the key parameter to extract the conversion function from convDict and apply it to the data
 
-        :param data: The data to be converted
-        :type data: IsmData
+        @param IsmData data: The data to be converted
+        @param int key: The key to be used to extract the conversion function from convDict
+        @param dict convDict: The dictionary containing the conversion functions
 
-        :param key: The key to be used to extract the conversion function from convDict
-        :type key: int
-
-        :param convDict: The dictionary containing the conversion functions
-        :type convDict: dict
-
-        :return: The converted data
-        :rtype: IsmData
+        @return **IsmData** The converted data
         """
         if key in convDict:
             conv = convDict[key]
@@ -848,11 +829,10 @@ class QwiicISM330DHCX(object):
         return data
 
     def get_accel(self):
-        """
+        """!
         Retrieves raw register values and converts them according to the full scale settings
 
-        :return: The accelerometer data in mg
-        :rtype: IsmData
+        @return **IsmData** The accelerometer data in mg
         """
         data = self.get_raw_accel()
 
@@ -866,11 +846,10 @@ class QwiicISM330DHCX(object):
         return self._convert_data(data, self._fullScaleAccel, fullScaleConversions)
 
     def get_gyro(self):
-        """
+        """!
         Retrieves raw register values and converts them according to the full scale settings
 
-        :return: The gyroscope data in mdps
-        :rtype: IsmData
+        @return **IsmData** The gyroscope data in mdps
         """
         data = self.get_raw_gyro()
 
@@ -923,11 +902,10 @@ class QwiicISM330DHCX(object):
         return lsb * 25000.0
 
     def set_device_config(self, enable=True):
-        """
+        """!
         Enable the general device configuration
-        
-        :param enable: Enable or disable the device configuration
-        :type enable: bool
+
+        @param bool enable: Enable or disable the device configuration
         """
         if enable != 0 and enable != 1:
             return
@@ -940,7 +918,7 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl9XL, val)
 
     def device_reset(self):
-        """
+        """!
         Reset the device to default settings
         """
         val = self._i2c.readByte(self.address, self.kRegCtrl3C)
@@ -950,22 +928,20 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl3C, val)
 
     def get_device_reset(self):
-        """
+        """!
         Get the device reset state
 
-        :return: The device reset state
-        :rtype: bool
+        @return **bool** The device reset state
         """
         val = self._i2c.readByte(self.address, self.kRegCtrl3C)
 
         return (val & self.kCtrl3CMaskSwReset) == 0
 
     def set_accel_slope_filter(self, val):
-        """
+        """!
         Set's the accelerometer's slope filter
 
-        :param val: The intensity of the filter (0x00 - 0x37)
-        :type val: int
+        @param int val: The intensity of the filter (0x00 - 0x37)
 
         See the constants in the class definition under "Possilbe Slope Filters" for a list of valid arguments
         """
@@ -991,11 +967,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl8XL, regVal)
     
     def set_accel_filter_lp2(self, enable = True):
-        """
+        """!
         Enable the accelerometer's high resolution slope filter
-        
-        :param enable: Enable or disable the filter
-        :type enable: bool
+
+        @param bool enable: Enable or disable the filter
         """
         if enable != True and enable != False:
             return
@@ -1008,11 +983,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl1XL, val)
 
     def set_gyro_filter_lp1(self, enable = True):
-        """
+        """!
         Enables the gyroscope's slope filter
 
-        :param enable: Enable or disable the filter
-        :type enable: bool
+        @param bool enable: Enable or disable the filter
         """
         if enable != True and enable != False:
             return
@@ -1025,11 +999,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl4C, val)
         
     def set_gyro_lp1_bandwidth(self, val):
-        """
+        """!
         Sets the low pass filter's bandwidth for the gyroscope
-        
-        :param val: The bandwidth of the filter
-        :type val: int
+
+        @param int val: The bandwidth of the filter
 
         Possible values:
             - kBwUltraLight
@@ -1052,11 +1025,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl6C, regVal)
 
     def set_block_data_update(self, enable = True):
-        """
+        """!
         Data is not updated until both MSB and LSB have been read from output registers
 
-        :param enable: Enable or disable the block data update
-        :type enable: bool
+        @param bool enable: Enable or disable the block data update
         """
         if enable != True and enable != False:
             return
@@ -1069,22 +1041,20 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl3C, val)
 
     def get_block_data_update(self):
-        """
+        """!
         Retrieves the bit indicating if block data update is enabled
 
-        :return: The block data update state
-        :rtype: int
+        @return **int** The block data update state
         """
         val = self._i2c.readByte(self.address, self.kRegCtrl3C)
 
         return (val & self.kCtrl3CMaskBdu) >> self.kCtrl3CShiftBdu
     
     def _mem_bank_set(self, val):
-        """
+        """!
         Enable access to the embedded functions/sensor hub configuration registers. Not to be used outside this module
 
-        :param val: The value to set the memory bank to
-        :type val: int
+        @param int val: The value to set the memory bank to
 
         Possible values:
             - kUserBank
@@ -1102,11 +1072,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegFuncCfgAccess, regVal)
 
     def _fsm_enable_get(self):
-        """
+        """!
         Embedded finite state machine functions mode. Not to be used outside this module
 
-        :return: Tuple containing fsmEnableA followed by fsmEnableB
-        :rtype: tuple of int
+        @return **tuple of int** Tuple containing fsmEnableA followed by fsmEnableB
         """
         self._mem_bank_set(self.kEmbeddedFuncBank)
 
@@ -1118,11 +1087,10 @@ class QwiicISM330DHCX(object):
         return (fsmEnableA, fsmEnableB)
     
     def _fsm_data_rate_get(self):
-        """
+        """!
         Get the data rate (ODR) of the finite state machine
 
-        :return: The data rate of the finite state machine
-        :rtype: int
+        @return **int** The data rate of the finite state machine
 
         Possible return values:
             - kOdrFsm12Hz5
@@ -1139,11 +1107,10 @@ class QwiicISM330DHCX(object):
         return (fsmOdrCfgB & self.kEmbFuncOdrMaskFsmOdr) >> self.kEmbFuncOdrShiftFsmOdr
     
     def _mlc_get(self):
-        """
+        """!
         Get the Machine Learning Core enable state
 
-        :return: The Machine Learning Core enable state
-        :rtype: int
+        @return **int** The Machine Learning Core enable state
         """
         self._mem_bank_set(self.kEmbeddedFuncBank)
 
@@ -1154,11 +1121,10 @@ class QwiicISM330DHCX(object):
         return (regVal & self.kEmbFuncEnBMaskMlcEn) >> self.kEmbFuncEnBShiftMlcEn
     
     def _mlc_data_rate_get(self):
-        """
+        """!
         Get Machine Learning Core data rate selection
-        
-        :return: The Machine Learning Core data rate selection
-        :rtype: int
+
+        @return **int** The Machine Learning Core data rate selection
 
         For possible return values see the "MLC" section in "Possible data rates" in the class definition
         """
@@ -1172,11 +1138,10 @@ class QwiicISM330DHCX(object):
 
 
     def set_accel_data_rate(self, val): 
-        """
+        """!
         Sets the data output rate of the accelerometer
 
-        :param val: Data rate
-        :type val: int
+        @param int val: Data rate
 
         See the "Accelerometer section in Possible data rates" in the class definition for a list of valid arguments
         """
@@ -1271,11 +1236,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl1XL, regVal)
 
     def set_gyro_data_rate(self, val):
-        """
+        """!
         Sets the data output rate of the gyroscope
 
-        :param val: Data rate
-        :type val: int
+        @param int val: Data rate
 
         See the "Gyroscope" section in Possible data rates" in the class definition for a list of valid arguments
         """
@@ -1368,11 +1332,10 @@ class QwiicISM330DHCX(object):
 
 
     def enable_timestamp(self, enable = True):
-        """
+        """!
         Enables the timestamp counter.
-        
-        :param enable: Enable or disable the timestamp counter
-        :type enable: bool
+
+        @param bool enable: Enable or disable the timestamp counter
         """
         if enable != True and enable != False:
             return
@@ -1385,7 +1348,7 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl10C, val)
     
     def reset_timestamp(self):
-        """
+        """!
         Resets the timestamp counter
         """
         resetVal = 0xAA
@@ -1393,11 +1356,10 @@ class QwiicISM330DHCX(object):
 
     # Fifo Methods
     def set_fifo_watermark(self, val):
-        """
+        """!
         Set the FIFO watermark level
 
-        :param val: The watermark level. Must be between 0 and 511 (a 9-bit value)
-        :type val: int
+        @param int val: The watermark level. Must be between 0 and 511 (a 9-bit value)
         """
         if val < 0 or val > 511:
             return
@@ -1415,11 +1377,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegFifoCtrl1, ctrl1Val)
 
     def set_fifo_mode(self, val):
-        """
+        """!
         Sets the FIFO mode
 
-        :param val: The FIFO mode
-        :type val: int
+        @param int val: The FIFO mode
 
         Possible values:
             - kBypassMode
@@ -1440,11 +1401,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegFifoCtrl4, regVal)
 
     def set_accel_fifo_batch_set(self, val):
-        """
+        """!
         Sets the batch data rate for the accelerometer
 
-        :param val: The batch data rate
-        :type val: int
+        @param int val: The batch data rate
 
         See the "Possible Accelerometer Batch Data Rates" in the class definition for a list of valid arguments
         """
@@ -1460,11 +1420,10 @@ class QwiicISM330DHCX(object):
 
 
     def set_gyro_fifo_batch_set(self, val):
-        """
+        """!
         Sets the batch data rate for the gyroscope
 
-        :param val: The batch data rate
-        :type val: int
+        @param int val: The batch data rate
 
         See the "Possible Gyroscope Batch Data Rates" in the class definition for a list of valid arguments
         """
@@ -1479,11 +1438,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegFifoCtrl3, regVal)
     
     def set_fifo_timestamp_dec(self, val):
-        """
+        """!
         Sets the FIFO time stamp decimation rate.
 
-        :param val: The decimation rate
-        :type val: int
+        @param int val: The decimation rate
 
         Possible values:
             - kNoDecimation
@@ -1503,11 +1461,10 @@ class QwiicISM330DHCX(object):
 
     # Interrupt and pin mode settings
     def set_pin_mode(self, activeLow):
-        """
+        """!
         Sets the active state of the interrupt pin - high or low.
 
-        :param activeLow: Set to `True` for active low, `False` for active high
-        :type activeLow: bool
+        @param bool activeLow: Set to `True` for active low, `False` for active high
         """
         if activeLow != True and activeLow != False:
             return
@@ -1525,11 +1482,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl3C, regVal)
 
     def set_int_notification(self, val):
-        """
+        """!
         Sets what triggers an interrupt
 
-        :param val: The interrupt event type
-        :type val: int
+        @param int val: The interrupt event type
 
         Possible Values:
             - kAllIntPulsed
@@ -1567,7 +1523,7 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     class _PinIntRoute:
-        """
+        """!
         The routing information for an interrupt pin
         """
         def __init__(self):
@@ -1579,12 +1535,11 @@ class QwiicISM330DHCX(object):
             self.mlc_int = 0
 
     def _pin_int1_route_get(self):
-        """
+        """!
         Get the routing information from registers INT1_CTRL, MD1_CFG,
         EMB_FUNC_INT1, FSM_INT1_A, FSM_INT1_B
 
-        :return: The routing information
-        :rtype: PinIntRoute
+        @return **PinIntRoute** The routing information
         """
         route = self._PinIntRoute()
 
@@ -1603,12 +1558,11 @@ class QwiicISM330DHCX(object):
         return route
 
     def _pin_int2_route_get(self):
-        """
+        """!
         Get the routing information from registers INT2_CTRL,  MD2_CFG,
         EMB_FUNC_INT2, FSM_INT2_A, FSM_INT2_B
 
-        :return: The routing information
-        :rtype: PinIntRoute
+        @return **PinIntRoute** The routing information
         """
         route = self._PinIntRoute()
 
@@ -1627,12 +1581,11 @@ class QwiicISM330DHCX(object):
         return route
     
     def _pin_int1_route_set(self, val):
-        """
+        """!
         Set the routing information to registers INT1_CTRL, MD1_CFG,
         EMB_FUNC_INT1, FSM_INT1_A, FSM_INT1_B
-        
-        :param val: The routing information
-        :type val: PinIntRoute
+
+        @param PinIntRoute val: The routing information
         """
         self._mem_bank_set(self.kEmbeddedFuncBank)
 
@@ -1678,11 +1631,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegTapCfg2, tapCfg2)
 
     def _pin_int2_route_set(self, val):
-        """
+        """!
         Select the signal that needs to route on the int2 pad
 
-        :param val: The routing information
-        :type val: PinIntRoute
+        @param PinIntRoute val: The routing information
         """
         self._mem_bank_set(self.kEmbeddedFuncBank)
 
@@ -1738,11 +1690,10 @@ class QwiicISM330DHCX(object):
 
         
     def set_accel_status_to_int1(self, enable = True):
-        """
+        """!
         Sends the accelerometer's data ready signal to interrupt one.
 
-        :param enable: Enable or disable the accelerometer status to the interrupt pin
-        :type enable: bool
+        @param bool enable: Enable or disable the accelerometer status to the interrupt pin
         """
         if enable != True and enable != False:
             return
@@ -1756,11 +1707,10 @@ class QwiicISM330DHCX(object):
     
 
     def set_fifo_threshold_int1(self, enable = True):
-        """
+        """!
         Sends the accelerometer's data ready signal to interrupt one.
 
-        :param enable: Enable or disable the accelerometer status to the interrupt pin
-        :type enable: bool
+        @param bool enable: Enable or disable the accelerometer status to the interrupt pin
         """
         if enable != True and enable != False:
             return
@@ -1773,11 +1723,10 @@ class QwiicISM330DHCX(object):
         self._pin_int1_route_set(route)
 
     def set_batch_counter_int1(self, enable = True):
-        """
+        """!
         Sends the accelerometer's data ready signal to interrupt one.
 
-        :param enable: Enable or disable the accelerometer status to the interrupt pin
-        :type enable: bool
+        @param bool enable: Enable or disable the accelerometer status to the interrupt pin
         """
         if enable != True and enable != False:
             return
@@ -1790,11 +1739,10 @@ class QwiicISM330DHCX(object):
         self._pin_int1_route_set(route)
 
     def set_accel_status_to_int2(self, enable = True):
-        """
+        """!
         Sends the accelerometer's data ready signal to interrupt two.
-        
-        :param enable: Enable or disable the accelerometer status to the interrupt pin
-        :type enable: bool
+
+        @param bool enable: Enable or disable the accelerometer status to the interrupt pin
         """
         if enable != True and enable != False:
             return
@@ -1807,11 +1755,10 @@ class QwiicISM330DHCX(object):
         self._pin_int2_route_set(route)
     
     def set_gyro_status_to_int1(self, enable = True):
-        """
+        """!
         Sends the gyroscope's data ready signal to interrupt one.
-        
-        :param enable: Enable or disable the gyroscope status to the interrupt pin
-        :type enable: bool
+
+        @param bool enable: Enable or disable the gyroscope status to the interrupt pin
         """
         if enable != True and enable != False:
             return
@@ -1824,11 +1771,10 @@ class QwiicISM330DHCX(object):
         self._pin_int1_route_set(route)
 
     def set_gyro_status_to_int2(self, enable = True):
-        """
+        """!
         Sends the gyroscope's data ready signal to interrupt two.
-        
-        :param enable: Enable or disable the gyroscope status to the interrupt pin
-        :type enable: bool
+
+        @param bool enable: Enable or disable the gyroscope status to the interrupt pin
         """
         if enable != True and enable != False:
             return
@@ -1841,12 +1787,11 @@ class QwiicISM330DHCX(object):
         self._pin_int2_route_set(route)
 
     def set_data_ready_mode(self, val):
-        """
+        """!
         Sets how the data ready signal is latched i.e. only return zero after interface reading
         OR is pulsed.
-        
-        :param val: The data ready mode.
-        :type val: int
+
+        @param int val: The data ready mode.
 
         Possible values:
             - kDataReadyPulsed
@@ -1863,11 +1808,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCntrBdr1, regVal)
     
     def set_hub_odr(self, rate):
-        """
+        """!
         Sets the output data rate for the sensor hub.
 
-        :param rate: The output data rate
-        :type rate: int
+        @param int rate: The output data rate
 
         Possible values:
             - kShOdr104Hz
@@ -1891,21 +1835,14 @@ class QwiicISM330DHCX(object):
 
 
     def set_hub_sensor_read(self, sensor, address, subAddress, lenData):
-        """
+        """!
         Sets the general sensor hub settings, which sensor and their I2C address and register
         to read.
 
-        :param sensor: The sensor to read from
-        :type sensor: int
-        
-        :param address: The I2C address of the sensor
-        :type address: int
-
-        :param subAddress: The register address of the sensor
-        :type subAddress: int
-
-        :param lenData: The length of data to read from the sensor
-        :type lenData: int
+        @param int sensor: The sensor to read from
+        @param int address: The I2C address of the sensor
+        @param int subAddress: The register address of the sensor
+        @param int lenData: The length of data to read from the sensor
         """
         if sensor < 0 or sensor > 3:
             return
@@ -1950,17 +1887,12 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def set_hub_sensor_write(self, address, subAddress, data):
-        """
+        """!
         Gives settings to the 6DoF to write to an external sensor.
-        
-        :param address: The I2C address of the sensor
-        :type address: int
 
-        :param subAddress: The register address of the sensor
-        :type subAddress: int
-
-        :param data: The single byte data to write to the sensor
-        :type data: int
+        @param int address: The I2C address of the sensor
+        @param int subAddress: The register address of the sensor
+        @param int data: The single byte data to write to the sensor
         """
         
         if data < 0 or data > 255:
@@ -1980,11 +1912,10 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def set_number_hub_sensors(self, highestSlave):
-        """
+        """!
         Sets the number of sensors that the sensor hub will read from.
 
-        :param highestSlave: The highest sensor number to read from (0-3)
-        :type highestSlave: int
+        @param int highestSlave: The highest sensor number to read from (0-3)
 
         For example, if highest slave is set to 2, the sensor hub will read from sensors 0, 1, and 2.
         """
@@ -2003,11 +1934,10 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def enable_sensor_i2c(self, enable = True):
-        """
+        """!
         Enables the 6DoF as an I2C sensor controller
 
-        :param enable: Enable or disable the sensor I2C controller
-        :type enable: bool
+        @param bool enable: Enable or disable the sensor I2C controller
         """
 
         if enable != 1 and enable != 0:
@@ -2025,14 +1955,12 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def read_peripheral_sensor(self, len):
-        """
+        """!
         Read external sensor data from the sensor hub
 
-        :param len: The number of bytes to read from the sensor
-        :type len: int
+        @param int len: The number of bytes to read from the sensor
 
-        :return: The data read from the sensor
-        :rtype: list
+        @return **list** The data read from the sensor
         """
 
         self._mem_bank_set(self.kSensorHubBank)
@@ -2044,11 +1972,10 @@ class QwiicISM330DHCX(object):
         return data
 
     def _sh_status_get(self): 
-        """
+        """!
         Read the sensor hub source register
 
-        :return: The status of the sensor hub
-        :rtype: int
+        @return **int** The status of the sensor hub
         """
 
         self._mem_bank_set(self.kSensorHubBank)
@@ -2061,11 +1988,10 @@ class QwiicISM330DHCX(object):
 
 
     def get_hub_status(self):
-        """
+        """!
         Checks whether communication with the external sensor has concluded.
 
-        :return: Whether communication has ended or not
-        :rtype: bool
+        @return **bool** Whether communication has ended or not
         """
         status = self._sh_status_get()
 
@@ -2075,11 +2001,10 @@ class QwiicISM330DHCX(object):
         return False
     
     def get_external_sensor_nack(self, sensor):
-        """
+        """!
         Get the NACK status of the external sensor
 
-        :param sensor: The sensor to check
-        :type sensor: int
+        @param int sensor: The sensor to check
         """
         status = self._sh_status_get()
         
@@ -2095,24 +2020,21 @@ class QwiicISM330DHCX(object):
         return False
 
     def read_mmc_magnetometer(self, len):
-        """
-        Read data from the MMC magnetometer 
-       
-        :param len: The number of bytes to read from the magnetometer
-        :type len: int
+        """!
+        Read data from the MMC magnetometer
 
-        :return: The data read from the magnetometer
-        :rtype: list
+        @param int len: The number of bytes to read from the magnetometer
+
+        @return **list** The data read from the magnetometer
         """
         return self.read_peripheral_sensor(len)
     
     def set_hub_write_mode(self, config):
-        """
+        """!
         Sets how often the 6DoF should write to the external sensor: once per cycle i.e. output
         data rate, or just once.
 
-        :param config: The write mode
-        :type config: int
+        @param int config: The write mode
 
         Possible values:
             - kHubWriteModeSingle
@@ -2131,11 +2053,10 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def set_hub_pass_through(self, enable = True):
-        """
+        """!
         Allows the primary I2C data lines to communicate through the auxiliary I2C lines.
 
-        :param enable: Enable or disable the pass through
-        :type enable: bool      
+        @param bool enable: Enable or disable the pass through
         """
 
         self._mem_bank_set(self.kSensorHubBank)
@@ -2148,11 +2069,10 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def set_hub_fifo_batching(self, enable = True):
-        """
+        """!
         Sets sensor hub FIFO batching
 
-        :param enable: Enable or disable the FIFO batching
-        :type enable: bool
+        @param bool enable: Enable or disable the FIFO batching
         """
         if enable != 1 and enable != 0:
             return
@@ -2170,11 +2090,10 @@ class QwiicISM330DHCX(object):
 
 
     def set_hub_pull_ups(self, enable = True):
-        """
+        """!
         Enables/Disables internal pullups on SDX/SCX lines
 
-        :param enable: Enable or disable the pullups
-        :type enable: bool
+        @param bool enable: Enable or disable the pullups
         """
         if enable != 1 and enable != 0:
             return
@@ -2189,7 +2108,7 @@ class QwiicISM330DHCX(object):
         self._mem_bank_set(self.kUserBank)
 
     def reset_sensor_hub(self):
-        """
+        """!
         Resets all settings in the "Master Config" register
         """
         self._mem_bank_set(self.kSensorHubBank)
@@ -2205,11 +2124,10 @@ class QwiicISM330DHCX(object):
 
     # Self Test Functions
     def setAccelSelfTest(self, val):
-        """
+        """!
         Linear acceleration sensor self-test enable.
 
-        :param val: Change the values of st_xl in reg CTRL5_C
-        :type val: int
+        @param int val: Change the values of st_xl in reg CTRL5_C
 
         Possible values:
             - kSelfTestDisable
@@ -2227,11 +2145,10 @@ class QwiicISM330DHCX(object):
         self._i2c.writeByte(self.address, self.kRegCtrl5C, regVal)
 
     def setGyroSelfTest(self, val):
-        """
+        """!
         Angular rate sensor self-test enable
 
-        :param val: Change the values of st_g in reg CTRL5_C
-        :type val: int
+        @param int val: Change the values of st_g in reg CTRL5_C
 
         Possible values:
             - kSelfTestDisable
@@ -2251,11 +2168,10 @@ class QwiicISM330DHCX(object):
     # Status Checking Functions
 
     def check_status(self):
-        """
+        """!
         Checks if data is ready for both the acclerometer and the gyroscope
 
-        :return: If data is ready for both sensors
-        :rtype: bool
+        @return **bool** If data is ready for both sensors
         """
         status = self._i2c.readByte(self.address, self.kRegStatus)
 
@@ -2265,11 +2181,10 @@ class QwiicISM330DHCX(object):
         return False
     
     def check_accel_status(self):
-        """
+        """!
         Checks if data is ready for the accelerometer
 
-        :return: If data is ready for the accelerometer
-        :rtype: bool
+        @return **bool** If data is ready for the accelerometer
         """
         status = self._i2c.readByte(self.address, self.kRegStatus)
 
@@ -2279,7 +2194,7 @@ class QwiicISM330DHCX(object):
         return False
     
     def check_gyro_status(self):
-        """
+        """!
         Checks if data is ready for the gyroscope
         """
         status = self._i2c.readByte(self.address, self.kRegStatus)
@@ -2290,7 +2205,7 @@ class QwiicISM330DHCX(object):
         return False
     
     def check_temp_status(self):
-        """
+        """!
         Checks if data is ready for the temperature sensor
         """
         status = self._i2c.readByte(self.address, self.kRegStatus)
