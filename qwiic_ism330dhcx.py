@@ -774,7 +774,7 @@ class QwiicISM330DHCX(object):
         :return: The temperature in degrees Celsius
         :rtype: float
         """
-        temp = self._i2c.read_block(self.address, self.kRegOutTempL)
+        temp = self._i2c.read_block(self.address, self.kRegOutTempL,2)
         val = (temp[1] << 8) | temp[0]
         # Convert to from unsigned to signed 16-bit
         if val > 32767:
