@@ -3,7 +3,7 @@ name: Build Documentation and Deploy
 on:
   push:
     branches:
-      - main
+      - master
       - v1.0
   workflow_dispatch:
 
