@@ -1,9 +1,6 @@
 {
     "urls": [
-      ["qwiic_ism330dhcx.py", "github:sparkfun/Qwiic_BME280_Py/qwiic_ism330dhcx.py"]
-    ],
-    "deps": [
-      ["github:sparkfun/Qwiic_I2C_Py", "master"]
+      ["qwiic_ism330dhcx_py_examples/qwiic_ism330dhcx_ex1_basic.py", "github:sparkfun/qwiic_ism330dhcx_py/examples/qwiic_ism330dhcx_ex1_basic.py"]
     ],
     "version": "1.0.0"
 }
